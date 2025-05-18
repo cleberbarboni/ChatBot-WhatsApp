@@ -5,7 +5,7 @@ const qrcode = require('qrcode-terminal');
 const client = new Client({
     authStrategy: new LocalAuth(),
 });
-
+//defina  o horário de atendimento do bot
 const businessHours = {
     mondayToThursday: { start: "08:00", end: "16:45" },
     friday: { start: "08:00", end: "15:45" },
@@ -27,8 +27,8 @@ function isBusinessHours() {
 
 // Gerenciar interações do cliente
 const sessions = new Map();
-
-const blockedNumbers = ['5519996312104@c.us']; // Substitua pelo número que deseja bloquear, sem espaços, com o código do país.
+//caso queira, defina um numero que nao ativara o bot e não receberá mensagens.
+const blockedNumbers = ['@c.us']; // Substitua pelo número que deseja bloquear, sem espaços, com o código do país.
 
 
 client.on('message', async (msg) => {
@@ -62,14 +62,14 @@ client.on('message', async (msg) => {
         case 0: // Saudação inicial
             const hour = now.getHours();
             const greeting = hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
-            await msg.reply(`${greeting}, tudo bem? Bem vindo(a) à 4Sys sistemas. Antes de iniciarmos, por favor, digite seu nome:`);
+            await msg.reply(`${greeting}, tudo bem? Bem vindo(a) à Nossa Empresa. Antes de iniciarmos, por favor, digite seu nome:`);
             userSession.step = 1;
             break;
 
         case 1: // Recebe o nome do cliente
             if (/^[a-zA-Z\s]+$/.test(msg.body)) {
                 userSession.name = msg.body.trim();
-                await msg.reply(`Obrigado ${userSession.name}, é um prazer ter você aqui com a gente! Como podemos te ajudar hoje? Escolha a opção correspondente:\n\n1- Vendas\n2- Compras\n3- Financeiro\n4- Suporte Automação (Já sou cliente)\n5- Suporte Geladeira\n6- Outros assuntos`);
+                await msg.reply(`Obrigado ${userSession.name}, é um prazer ter você aqui com a gente! Como podemos te ajudar hoje? Escolha a opção correspondente:\n\n1- Vendas\n2- Compras\n3- Financeiro\n4- Suporte Automação (Já sou cliente)\n5- Suporte Site\n6- Outros assuntos`);
                 userSession.step = 2;
             } else {
                 await msg.reply("O nome digitado está incorreto. Por favor, digite apenas seu nome (sem números ou caracteres especiais):");
